@@ -856,3 +856,27 @@ services:
       timeout: 10s
       retries: 10
     logging: *logging
+
+
+=================================================================================================================================
+
+
+
+
+IF in case any flagd-Ui  issue face run this command:
+Instead of using the prebuilt latest image, build from your local source:
+C: docker compose build --no-cache flagd-ui
+Then recreate it:
+docker compose up -d --force-recreate flagd-ui
+Finally, verify the image ID changed:
+docker inspect flagd-ui --format='{{.Image}}'
+
+
+Let's verify what was actually built.
+docker ps -a | grep flagd-ui
+
+docker logs flagd-ui --tail=50
+
+docker image inspect sha256:7a8a03ef1a1d2f397d7493f33ee0ee99f4800435473b386a38504394f051f5fb --format='{{.Config.Cmd}}'
+
+docker image inspect sha256:7a8a03ef1a1d2f397d7493f33ee0ee99f4800435473b386a38504394f051f5fb --format='{{.Config.Entrypoint}}'
