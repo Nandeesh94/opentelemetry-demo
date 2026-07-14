@@ -1,0 +1,246 @@
+The tool you are looking for to watch and troubleshoot these kinds of errors is k9s (not k9). It is an incredibly popular,
+real-time terminal UI that lets you navigate your cluster instantly without typing long kubectl commands.
+
+Step 1: Install k9s on Ubuntu:
+
+Run this command to download the latest linux binary directly from the official GitHub release, 
+extract it, and move it to your system PATH:
+
+# 1. Download the latest k9s stable release
+curl -L -s https://github.com/derailed/k9s/releases/latest/download/k9s_Linux_amd64.tar.gz | tar -xz
+
+# 2. Move the binary into your PATH
+sudo mv k9s /usr/local/bin/
+
+# 3. Verify it is working
+k9s version
+
+Step 2: How to Launch and Watch for Errors:
+K9s
+
+The Basic Navigation Keys:
+0: Shows All Namespaces at once (highly recommended right now).
+
+Arrow Keys: Scroll up and down through your pods.
+
+Enter: Selects a resource (e.g., hitting Enter on a pod lets you drill down to see its individual containers).
+
+Esc: Go back to the previous screen.
+
+
+k9s all commands:
+Here is a complete, scannable reference guide for k9s commands, navigation shortcuts, and operations.
+
+K9s has many commands, but in practice about 50-60 commands are used regularly. Here's a comprehensive cheat sheet.
+| Key      | Action           |
+| -------- | ---------------- |
+| `?`      | Help             |
+| `:`      | Command mode     |
+| `Ctrl+C` | Quit K9s         |
+| `Esc`    | Back             |
+| `q`      | Previous screen  |
+| `/`      | Filter resources |
+| `/text`  | Search/filter    |
+| `Ctrl+D` | Delete filter    |
+| `:` `q`  | Quit             |
+
+
+Navigation:
+
+| Command               | Description               |
+| --------------------- | ------------------------- |
+| `:pod` or `:po`       | Pods                      |
+| `:deploy`             | Deployments               |
+| `:svc`                | Services                  |
+| `:ns`                 | Namespaces                |
+| `:node`               | Nodes                     |
+| `:cm`                 | ConfigMaps                |
+| `:secret`             | Secrets                   |
+| `:sts`                | StatefulSets              |
+| `:ds`                 | DaemonSets                |
+| `:job`                | Jobs                      |
+| `:cj`                 | CronJobs                  |
+| `:ing`                | Ingress                   |
+| `:pv`                 | PersistentVolumes         |
+| `:pvc`                | PersistentVolumeClaims    |
+| `:ep`                 | Endpoints                 |
+| `:sa`                 | ServiceAccounts           |
+| `:role`               | Roles                     |
+| `:rolebinding`        | RoleBindings              |
+| `:clusterrole`        | ClusterRoles              |
+| `:clusterrolebinding` | ClusterRoleBindings       |
+| `:netpol`             | Network Policies          |
+| `:events`             | Events                    |
+| `:crd`                | CRDs                      |
+| `:hpa`                | Horizontal Pod Autoscaler |
+
+
+Namespace:
+
+| Key     | Action           |
+| ------- | ---------------- |
+| `:ns`   | List namespaces  |
+| `0`     | All namespaces   |
+| `Enter` | Select namespace |
+
+
+Pod Operations:
+Select a Pod first.
+
+| Key       | Action                           |
+| --------- | -------------------------------- |
+| `l`       | Logs                             |
+| `Shift+L` | Previous logs                    |
+| `f`       | Follow logs                      |
+| `s`       | Shell                            |
+| `d`       | Describe                         |
+| `y`       | YAML                             |
+| `e`       | Edit                             |
+| `Ctrl+D`  | Delete pod                       |
+| `Ctrl+K`  | Kill pod                         |
+| `r`       | Restart (Deployment-managed pod) |
+| `x`       | Decode Secret (Secrets view)     |
+
+
+Logs:
+
+| Key       | Action         |
+| --------- | -------------- |
+| `0`       | Beginning      |
+| `Shift+G` | End            |
+| `Space`   | Page Down      |
+| `b`       | Page Up        |
+| `/`       | Search         |
+| `n`       | Next match     |
+| `N`       | Previous match |
+
+
+YAML:
+
+| Key      | Action        |
+| -------- | ------------- |
+| `y`      | View YAML     |
+| `e`      | Edit resource |
+| `Ctrl+S` | Save (editor) |
+
+
+Describe:
+
+| Key | Action                     |
+| --- | -------------------------- |
+| `d` | Describe selected resource |
+
+Equivalent to:
+kubectl describe pod POD_NAME
+
+
+Shell:
+Press:
+s
+Equivalent to:
+kubectl exec -it POD -- sh
+or
+kubectl exec -it POD -- bash
+
+
+
+Port Forward
+Select resource.
+Press:
+Shift+F
+or type:
+:pf
+
+
+Delete Resource:
+Select resource.
+Press:
+Ctrl+D
+Confirmation appears.
+
+
+Scale Deployment
+Select Deployment.
+Press:
+s
+Enter replicas.
+Equivalent:
+kubectl scale deployment nginx --replicas=5
+
+
+Sort:
+| Key       | Action |
+| --------- | ------ |
+| `Shift+S` | Sort   |
+| `Shift+C` | CPU    |
+| `Shift+M` | Memory |
+
+
+Refresh:
+| Key      | Action               |
+| -------- | -------------------- |
+| `Ctrl+R` | Refresh              |
+| `r`      | Refresh current view |
+
+
+Favorites:
+| Key       | Action  |
+| --------- | ------- |
+| `Shift+A` | Aliases |
+| `:alias`  | Aliases |
+
+
+Context:
+| Command | Description    |
+| ------- | -------------- |
+| `:ctx`  | Switch context |
+
+
+Cluster Information:
+| Command    | Description  |
+| ---------- | ------------ |
+| `:cluster` | Cluster info |
+| `:node`    | Nodes        |
+| `:events`  | Events       |
+
+
+Useful Command Mode Examples:
+:po
+:deploy
+:svc
+:node
+:ns
+:events
+:configmap
+:secret
+:pv
+:pvc
+:ctx
+:cluster
+
+
+Most Frequently Used Shortcuts:
+| Key       | Purpose                   |
+| --------- | ------------------------- |
+| `?`       | Help                      |
+| `:`       | Command mode              |
+| `/`       | Filter/Search             |
+| `Enter`   | Open resource             |
+| `Esc`     | Back                      |
+| `l`       | Logs                      |
+| `f`       | Follow logs               |
+| `s`       | Shell into pod            |
+| `d`       | Describe                  |
+| `y`       | YAML                      |
+| `e`       | Edit                      |
+| `Ctrl+D`  | Delete                    |
+| `Shift+F` | Port Forward              |
+| `:ns`     | Namespaces                |
+| `:ctx`    | Switch Kubernetes context |
+| `Ctrl+C`  | Exit K9s                  |
+
+
+These commands cover nearly all day-to-day Kubernetes administration tasks you'll perform with K9s.
+
+
+
